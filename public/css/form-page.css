@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+main {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Montserrat", "sans-serif";
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 5rem 3rem 5rem;
+    border-radius: 1rem;
+    border: 2px solid #000;
+    gap: 1rem;
+}
+
+button {
+    cursor: pointer;
+}
+
+h1 {
+    font-weight: normal;
+    margin-bottom: 1rem;
+}
+
+.section-names {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.section-names input {
+    width: 20rem;
+    font-size: 16px;
+    padding: 6px 0 6px 10px;
+}
+
+.section-date-of-birth {
+    width: 20rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.section-date-of-birth p {
+    font-size: 18px;
+}
+
+.section-university {
+    width: 20rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.section-university select {
+    width: 80%;
+    padding: 6px 0 6px 4px;
+}
+
+.section-technologies span,
+.section-university span {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    background-color: rgb(222, 221, 221);
+    cursor: pointer;
+}
+
+.section-technologies {
+    width: 20rem;
+    display: flex;
+}
+
+#technologies {
+    width: 10rem;
+}
+
+#technologies option {
+    padding: 5px;
+}
+
+.section-technologies span {
+    margin-left: 1rem;
+}
+
+.section-button {
+    width: 20rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+#add-university-window button,
+.section-button button {
+    padding: 12px 17px 12px 17px;
+    border-radius: 9999px;
+    background-color: rgb(44, 44, 44);
+    border: none;
+    color: white;
+}
+
+.section-button button:hover {
+    background-color: rgb(80, 80, 80);
+}
+
+#add-university {
+    position: relative;
+}
+
+#add-university-window {
+    width: 22rem;
+    top: 25rem;
+    right: 26rem;
+    border: 2px solid #000;
+    border-radius: 1rem;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    visibility: hidden;
+    flex-direction: column;
+    padding: 2rem;
+    background-color: white;
+    gap: 1rem;
+}
+
+#add-university-window input {
+    width: 100%;
+    font-size: 12px;
+    padding: 6px 0 6px 10px;
+    outline: none;
+}
+
+#add-university-window p {
+    font-size: 14px;
+}
+
+#add-university-window button {
+    width: 55%;
+}
