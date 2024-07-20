@@ -7,22 +7,29 @@ use App\Models\Person;
 use App\Models\Cv;
 use App\Models\Technology;
 use App\Models\University;
+use Carbon\Carbon;
+use \Illuminate\View\View;
+use \Illuminate\Http\RedirectResponse;
 
 class CVFormController extends Controller
 {
-    public function show()
+
+    public function show(): View
     {
-        return view('form-page');
+        return view('form-page', [
+            'technologies' => Technology::all(),
+            'universities' => University::all(),
+        ]);
     }
 
     /**
      * Намира (създава ако го няма) университет 
      * по име и го връща като обект от базата данни
      */
-    private function get_university($university_name)
+    private function getUniversity(Request $request, string $university_name): University
     {
         if (!University::where('name', $university_name)->first()) {
-            return University::create(['name' => $university_name, 'grade' => 0]);
+            return University::create(['name' => $university_name, 'grade' => $request->input('university')->grade]);
         }
 
         return University::where('name', $university_name)->first();
@@ -35,7 +42,7 @@ class CVFormController extends Controller
      * при базите данни наречена bulk create, която позволява да правим
      * множество релации наведнъж, което води до олекотени заявки
      */
-    private function add_technologies($person, $technologies_names)
+    private function addTechnologies(Cv $cv, array $technologies_names): void
     {
         $technologies = [];
 
@@ -49,10 +56,50 @@ class CVFormController extends Controller
             $technologies = array_merge($technologies, [$technology->id]);
         }
 
-        $person->technologies()->attach($technologies);
+        $cv->technologies()->attach($technologies);
     }
 
-    public function store(Request $request)
+    /**
+     * Намираме cv-то със съответния потребител,
+     * променяме университета ако потребителя е 
+     * записал друг, същото и за технологиите,
+     * които знае. Накрая запазваме инстанцията
+     */
+    private function replaceCv(Request $request, array $validatedData, Person $person): void
+    {
+        $cv = Cv::where('person_id', $person->id)->first();
+
+        $cv->university_id = $this->getUniversity($request, $validatedData['university'])->id;
+        $cv->technologies()->detach();
+        $this->addTechnologies($cv, $validatedData['technologies']);
+        $cv->created_at = Carbon::now();
+        $cv->save();
+    }
+
+    /**
+     * Създаваме потребител и свързваме
+     * нужните релации
+     */
+    private function createCv(Request $request, array $validatedData): void
+    {
+        $person = Person::create(
+            [
+                'first_name' => $validatedData['first_name'],
+                'middle_name' => $validatedData['middle_name'],
+                'last_name' => $validatedData['last_name'],
+                'date_of_birth' => $validatedData['date_of_birth'],
+            ]
+        );
+
+        $cv = Cv::create([
+            'person_id' => $person->id,
+            'university_id' => $this->getUniversity($request, $validatedData['university'])->id,
+        ]);
+
+        $this->addTechnologies($cv, $validatedData['technologies']);
+    }
+
+    public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:25',
@@ -63,19 +110,15 @@ class CVFormController extends Controller
             'technologies' => 'required|array'
         ]);
 
-        $person = Person::create(
-            [
-                'first_name' => $validatedData['first_name'],
-                'middle_name' => $validatedData['middle_name'],
-                'last_name' => $validatedData['last_name'],
-                'date_of_birth' => $validatedData['date_of_birth'],
-                'university_id' => $this->get_university($validatedData['university'])->id,
-            ]
-        );
+        $person = Person::where('first_name', $validatedData['first_name'])
+            ->where('middle_name', $validatedData['middle_name'])
+            ->where('last_name', $validatedData['last_name'])->first();
 
-        $this->add_technologies($person, $validatedData['technologies']);
+        if ($person)
+            $this->replaceCv($request, $validatedData, $person);
+        else
+            $this->createCv($request, $validatedData);
 
-        Cv::create(['person_id' => $person->id]);
 
         return redirect('/table');
     }

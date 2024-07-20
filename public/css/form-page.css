@@ -10,6 +10,8 @@ main {
     width: 100%;
     height: 100vh;
     display: flex;
+    flex-direction: column;
+    gap: 20px;
     justify-content: center;
     align-items: center;
     font-family: "Montserrat", "sans-serif";
@@ -22,12 +24,34 @@ form {
     align-items: center;
     padding: 3rem 5rem 3rem 5rem;
     border-radius: 1rem;
-    border: 2px solid #000;
+    border: 1px solid #747474;
     gap: 1rem;
 }
 
 button {
     cursor: pointer;
+}
+
+input {
+    outline: none;
+}
+
+a {
+    padding: 12px 17px 12px 17px;
+    border-radius: 9999px;
+    background-color: rgb(44, 44, 44);
+    border: none;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    gap: 1rem;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+}
+
+a:hover {
+    background-color: rgb(80, 80, 80);
 }
 
 h1 {
@@ -106,33 +130,39 @@ h1 {
     margin-top: 1rem;
 }
 
-#add-university-window button,
+#add-technology-popup span,
+#add-university-popup span,
 .section-button button {
     padding: 12px 17px 12px 17px;
     border-radius: 9999px;
     background-color: rgb(44, 44, 44);
     border: none;
     color: white;
+    font-family: "Montserrat", "sans-serif";
 }
 
+#add-technology-popup span:hover,
+#add-university-popup span:hover,
 .section-button button:hover {
     background-color: rgb(80, 80, 80);
 }
 
+#add-technology,
 #add-university {
     position: relative;
 }
 
-#add-university-window {
-    width: 22rem;
-    top: 25rem;
-    right: 26rem;
-    border: 2px solid #000;
+#add-technology-popup,
+#add-university-popup {
+    width: 25rem;
+    top: 32rem;
+    right: 18rem;
+    border: 1px solid #747474;
     border-radius: 1rem;
     position: absolute;
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
     visibility: hidden;
     flex-direction: column;
     padding: 2rem;
@@ -140,17 +170,26 @@ h1 {
     gap: 1rem;
 }
 
-#add-university-window input {
+#add-university-popup {
+    top: 16rem;
+}
+
+#add-technology-popup input,
+#add-university-popup input {
     width: 100%;
     font-size: 12px;
     padding: 6px 0 6px 10px;
     outline: none;
 }
 
-#add-university-window p {
+#add-technology-popup p,
+#add-university-popup p {
     font-size: 14px;
 }
 
-#add-university-window button {
-    width: 55%;
+#add-technology-popup span,
+#add-university-popup span {
+    width: 30%;
+    align-self: flex-end;
+    font-size: 14px;
 }

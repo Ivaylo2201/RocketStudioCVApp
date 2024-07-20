@@ -22,7 +22,7 @@ form {
     flex-direction: column;
     align-items: center;
     padding: 3rem 5rem 3rem 5rem;
-    border: 1px solid #dddddd;
+    border: 1px solid #747474;
     border-radius: 1rem;
     gap: 1rem;
 }
@@ -56,9 +56,49 @@ table {
     width: 100%;
 }
 
+.inputs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type="date"] {
+    font-size: 15px;
+    padding: 5px;
+}
+
 td,
 th {
-    border: 1px solid #dddddd;
+    border: 1px solid #747474;
     text-align: left;
     padding: 8px;
+    font-size: 16px;
+}
+
+th {
+    text-align: center;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a {
+    padding: 12px 17px 12px 17px;
+    border-radius: 9999px;
+    background-color: rgb(44, 44, 44);
+    border: none;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    gap: 1rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}
+
+a:hover {
+    background-color: rgb(80, 80, 80);
 }

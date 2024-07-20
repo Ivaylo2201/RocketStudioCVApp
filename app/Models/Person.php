@@ -10,17 +10,6 @@ class Person extends Model
         'first_name',
         'middle_name',
         'last_name',
-        'date_of_birth',
-        'university_id'
+        'date_of_birth'
     ];
-
-    public function technologies()
-    {
-        return $this->belongsToMany(Technology::class);
-    }
-
-    public function university()
-    {
-        return $this->belongsTo(University::class, 'university_id');
-    }
 }

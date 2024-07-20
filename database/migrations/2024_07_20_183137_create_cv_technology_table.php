@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cvs', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('person_id');
+        Schema::create('cv_technology', function (Blueprint $table) {
+            $table->foreignId('cv_id')->constrained()->onDelete('cascade');
+            $table->foreignId('technology_id')->constrained()->onDelete('cascade');
             $table->timestamps();
 
-            $table->foreign('person_id')->references('id')->on('people')->onDelete('cascade');
+            $table->primary(['cv_id', 'technology_id']);
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cvs');
+        Schema::dropIfExists('cv_technology');
     }
 };

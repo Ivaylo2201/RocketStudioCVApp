@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ asset('css/form-page.css') }}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/b53851d4fb.js" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/form-page-script.js') }}" defer></script>
     <title>Document</title>
 </head>
 
@@ -14,59 +15,51 @@
         <form action="{{ route('form.submit') }}" method="POST">
             @csrf
             <h1>Създаване на CV</h1>
+
             <section class="section-names">
                 <input required type="text" name="first_name" id="first_name" placeholder="Име...">
                 <input required type="text" name="middle_name" id="middle_name" placeholder="Презиме...">
                 <input required type="text" name="last_name" id="last_name" placeholder="Фамилия...">
             </section>
+
             <section class="section-date-of-birth">
                 <p>Дата на раждане</p>
                 <input required type="date" name="date_of_birth" id="date_of_birth">
             </section>
+
             <section class="section-university">
-                <select required name="university" id="university">
-                    <option value="tu-varna">TU-VARNA</option>
-                    <option value="marine">Marine</option>
-                </select>
+                @include('components.form-page.universities-list')
+
                 <span id="add-university">
                     <i class="fa-solid fa-pencil"></i>
                 </span>
-                <div id="add-university-window">
-                    <p>Popup въвеждане на нов Университет</p>
-                    <input type="text" name="university-name" id="university-name" placeholder="Име на университет...">
-                    <input type="text" name="grade" id="grade" placeholder="Акредедитационна оценка...">
-                    <button id="add-university-button">Запис</button>
-                </div>
+
+                @include('components.form-page.add-university-popup')
             </section>
+
             <section class="section-technologies">
-                <select id="technologies" name="technologies[]" multiple>
-                    <option value="php">PHP</option>
-                    <option value="laravel">Laravel</option>
-                    <option value="symfony">Symfony</option>
-                    <option value="zend">Zend framework</option>
-                    <option value="ruby">Ruby</option>
-                    <option value="mysql">MySql</option>
-                    <option value="css3">CSS3</option>
-                </select>
-                <span>
+                @include('components.form-page.technologies-list')
+
+                <span id="add-technology">
                     <i class="fa-solid fa-pencil"></i>
                 </span>
+
+                @include('components.form-page.add-technology-popup')
             </section>
+
             <section class="section-button">
-                <button type="submit">Запис на CV</button>
+                <button type="submit" id="submit-button">Запис на CV</button>
             </section>
         </form>
-    </main>
-    <script>
-        const addUniversity = document.getElementById("add-university");
-        const window = document.getElementById('add-university-window');
-        const addUniversityButton = document.getElementById('add-university-button');
 
-        addUniversity.addEventListener('click', () => {
-            const window = document.getElementById('add-university-window');
-            window.style.visibility = window.style.visibility === 'hidden' ? 'visible' : 'hidden';
-        });
-    </script>
+        <a href="/table">
+            Към таблица със CV-та
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    </main>
+    
+    @include('components.form-page.script')
+
 </body>
 
 </html>
