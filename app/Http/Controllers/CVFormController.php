@@ -15,41 +15,68 @@ class CVFormController extends Controller
         return view('form-page');
     }
 
-    public function store(Request $request)
+    /**
+     * Намира (създава ако го няма) университет 
+     * по име и го връща като обект от базата данни
+     */
+    private function get_university($university_name)
     {
-        $first_name = $request->input('first_name');
-        $middle_name = $request->input('middle_name');
-        $last_name = $request->input('last_name');
-        $date_of_birth = $request->input('date_of_birth');
-        $university = $request->input('university');
-        $technologies = $request->input('technologies', []);
-
-        if (!University::where('name', $university)->first()) {
-            $university = University::create(['name' => $university, 'grade' => 0]);
+        if (!University::where('name', $university_name)->first()) {
+            return University::create(['name' => $university_name, 'grade' => 0]);
         }
 
-        $person = Person::create(
-            [
-                'first_name' => $first_name,
-                'middle_name' => $middle_name,
-                'last_name' => $last_name,
-                'date_of_birth' => $date_of_birth,
-                'university_id' => $university->id,
-            ]
-        );
+        return University::where('name', $university_name)->first();
+    }
 
-        foreach ($technologies as $t) {
+    /**
+     * Намираме технология по име (създаваме я ако я няма) и
+     * прибавяме нейното ид към масив. След обхождането прибавяме
+     * технологиите към Many-to-Many полето на Person. Това е концепция
+     * при базите данни наречена bulk create, която позволява да правим
+     * множество релации наведнъж, което води до олекотени заявки
+     */
+    private function add_technologies($person, $technologies_names)
+    {
+        $technologies = [];
+
+        foreach ($technologies_names as $t) {
             $technology = Technology::where('name', $t)->first();
 
             if (!$technology) {
                 $technology = Technology::create(['name' => $t]);
             }
 
-            $person->technologies()->attach([$technology->id]);
+            $technologies = array_merge($technologies, [$technology->id]);
         }
+
+        $person->technologies()->attach($technologies);
+    }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'first_name' => 'required|string|max:25',
+            'middle_name' => 'required|string|max:25',
+            'last_name' => 'required|string|max:25',
+            'date_of_birth' => 'required|date',
+            'university' => 'required|string|max:50',
+            'technologies' => 'required|array'
+        ]);
+
+        $person = Person::create(
+            [
+                'first_name' => $validatedData['first_name'],
+                'middle_name' => $validatedData['middle_name'],
+                'last_name' => $validatedData['last_name'],
+                'date_of_birth' => $validatedData['date_of_birth'],
+                'university_id' => $this->get_university($validatedData['university'])->id,
+            ]
+        );
+
+        $this->add_technologies($person, $validatedData['technologies']);
 
         Cv::create(['person_id' => $person->id]);
 
-        return redirect('/');
+        return redirect('/table');
     }
 }

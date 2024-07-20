@@ -15,16 +15,16 @@
             @csrf
             <h1>Създаване на CV</h1>
             <section class="section-names">
-                <input type="text" name="first_name" id="first_name" placeholder="Име...">
-                <input type="text" name="middle_name" id="middle_name" placeholder="Презиме...">
-                <input type="text" name="last_name" id="last_name" placeholder="Фамилия...">
+                <input required type="text" name="first_name" id="first_name" placeholder="Име...">
+                <input required type="text" name="middle_name" id="middle_name" placeholder="Презиме...">
+                <input required type="text" name="last_name" id="last_name" placeholder="Фамилия...">
             </section>
             <section class="section-date-of-birth">
                 <p>Дата на раждане</p>
-                <input type="date" name="date_of_birth" id="date_of_birth">
+                <input required type="date" name="date_of_birth" id="date_of_birth">
             </section>
             <section class="section-university">
-                <select name="university" id="university">
+                <select required name="university" id="university">
                     <option value="tu-varna">TU-VARNA</option>
                     <option value="marine">Marine</option>
                 </select>
@@ -64,7 +64,7 @@
 
         addUniversity.addEventListener('click', () => {
             const window = document.getElementById('add-university-window');
-            window.style.display = window.style.display === 'none' ? 'block' : 'none';
+            window.style.visibility = window.style.visibility === 'hidden' ? 'visible' : 'hidden';
         });
     </script>
 </body>
