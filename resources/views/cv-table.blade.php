@@ -21,8 +21,13 @@
         @include('components.table-page.date-period-form')
 
         <table>
-            @include('components.table-page.table-headers')
-            @include('components.table-page.table-values')
+            @include('components.table-page.table-people-headers')
+            @include('components.table-page.table-people-values')
+        </table>
+
+        <table>
+            @include('components.table-page.table-ages-headers')
+            @include('components.table-page.table-ages-values')
         </table>
     </main>
 </body>
