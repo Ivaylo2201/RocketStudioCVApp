@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ asset('css/form-page.css') }}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/b53851d4fb.js" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/form-page-script.js') }}" defer></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Document</title>
 </head>
 
@@ -58,7 +58,7 @@
         </a>
     </main>
     
-    @include('components.form-page.script')
+    <script src="{{ asset('js/script.js') }}"></script>
 
 </body>
 
