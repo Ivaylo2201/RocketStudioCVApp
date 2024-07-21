@@ -8,6 +8,8 @@ use Illuminate\Http\JsonResponse;
 
 class UniversityController extends Controller
 {
+    // Същата концепция като при 'TechnologyController', но
+    // тук имаме 1 поле повече - акредитационна оценка
     public function store(Request $request): JsonResponse
     {
         $university_name = $request->input('name');

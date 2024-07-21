@@ -23,6 +23,7 @@ class CVFormController extends Controller
     }
 
     /**
+     * Helper method:
      * Намира (създава ако го няма) университет 
      * по име и го връща като обект от базата данни
      */
@@ -36,6 +37,7 @@ class CVFormController extends Controller
     }
 
     /**
+     * Helper method:
      * Намираме технология по име (създаваме я ако я няма) и
      * прибавяме нейното ид към масив. След обхождането прибавяме
      * технологиите към Many-to-Many полето на Person. Това е концепция
@@ -60,6 +62,7 @@ class CVFormController extends Controller
     }
 
     /**
+     * Helper method:
      * Намираме cv-то със съответния потребител,
      * променяме университета ако потребителя е 
      * записал друг, същото и за технологиите,
@@ -77,6 +80,7 @@ class CVFormController extends Controller
     }
 
     /**
+     * Helper method:
      * Създаваме потребител и свързваме
      * нужните релации
      */

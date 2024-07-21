@@ -12,6 +12,8 @@ class CVTableController extends Controller
 {
     private function aggregate(Carbon $start, Carbon $end)
     {
+        // Етикети за възрастовите групи
+        // и долна и горна граница за тхя
         $age_ranges = [
             '0-19' => [0, 19],
             '20-29' => [20, 29],
@@ -23,6 +25,8 @@ class CVTableController extends Controller
 
         $cvs = $this->fetchUserCvs($start, $end);
 
+        // Проверяваме годините на всеки потребител свързан със св
+        // и определяме към коя възрастова група принадлежи
         $cvs_grouped_by_age = $cvs->groupBy(function ($cv) use ($age_ranges) {
             $age = Carbon::parse($cv->person->date_of_birth)->age;
 
@@ -33,6 +37,9 @@ class CVTableController extends Controller
             }
         });
 
+        // Връщаме броят на потребителите за всяка възрастова група
+        // и взимаме всичките им умения (технологии) като ги филтрираме
+        // така, че да няма повтарящи се
         $age_range_data = $cvs_grouped_by_age->mapWithKeys(function ($group, $age_range) {
             $number_of_people = $group->count();
             $technologies = $group->flatMap(function ($cv) {

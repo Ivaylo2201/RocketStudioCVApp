@@ -13,6 +13,7 @@ class Cv extends Model
         'university_id',
     ];
 
+    // Релации
     public function person(): BelongsTo
     {
         return $this->belongsTo(Person::class, 'person_id');
